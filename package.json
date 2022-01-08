@@ -1,0 +1,24 @@
+{
+  "name": "sparrowking-server",
+  "version": "1.0.0",
+  "description": "Backend server of Sparrow King",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "env-cmd nodemon"
+  },
+  "author": "Sparrow King Team",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.2",
+    "express-fileupload": "^1.2.1",
+    "log4js": "^6.3.0",
+    "mongoose": "^6.1.5"
+  },
+  "devDependencies": {
+    "env-cmd": "^10.1.0",
+    "nodemon": "^2.0.15"
+  }
+}
