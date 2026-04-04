@@ -1,0 +1,25 @@
+{
+  "development": {
+    "username": "sparrow",
+    "password": "sparrow123",
+    "database": "sparrowking_dev",
+    "host": "localhost",
+    "port": 5433,
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "sparrow",
+    "password": "sparrow123",
+    "database": "sparrowking_test",
+    "host": "localhost",
+    "port": 5433,
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "database_production",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}

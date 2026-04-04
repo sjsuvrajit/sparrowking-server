@@ -2,6 +2,8 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import pool, {query} from "./config/database";
+import { testConnection } from "./config/sequelize";
+import User from "./models/Users";
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
@@ -35,15 +37,46 @@ app.get('/db-test', async (req: Request, res: Response) => {
   }
 });
 
-// Test connection on startup
-pool.query('SELECT NOW()', (err, res) => {
-  if (err) {
-    console.error('❌ Database connection failed:', err.message);
-  } else {
-    console.log('✅ Database connected successfully at:', res.rows[0].now);
+app.post('/test-user', async (req: Request, res: Response) => {
+  try {
+    const user = await User.create({
+      email: 'test@example.com',
+      password_hash: 'temp_hash_123',
+      full_name: 'Test User',
+      role: 'customer',
+    });
+    
+    res.json({
+      success: true,
+      message: 'User created!',
+      user: {
+        id: user.id,
+        email: user.email,
+        full_name: user.full_name,
+        role: user.role,
+      },
+    });
+  } catch (error: any) {
+    res.status(400).json({
+      success: false,
+      error: error.message,
+    });
   }
 });
 
-app.listen(PORT, () => {
-    console.log(`🚀 Server is running on PORT ${PORT}`);
-})
+//start the server
+const startServer = async () => {
+    try {
+        //Test database connection before starting the server
+        await testConnection();
+        app.listen(PORT, () => {
+            console.log(`🚀 Server is running on PORT ${PORT}`);
+        });
+
+    } catch (error) {
+        console.error('❌ Failed to start the server:', error);
+        process.exit(1);
+    }
+}
+
+startServer();
