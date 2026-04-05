@@ -1,0 +1,42 @@
+export class AppError extends Error {
+    public statusCode: number;
+    public isOperational: boolean;
+
+    constructor(message: string, statusCode: number) {
+        super(message);
+        this.statusCode = statusCode;
+        this.isOperational = true; // Mark this error as operational (expected)
+
+        Error.captureStackTrace(this, this.constructor);
+    }
+}
+
+export class ValidateError extends AppError {
+    constructor(message: string) {
+        super(message, 400); // Bad Request
+    }
+}
+
+export class NotFoundError extends AppError {
+    constructor(message: string = "Resource not found") {
+        super(message, 404); // Not Found
+    }
+}
+
+export class UnauthorizedError extends AppError {
+    constructor(message: string = "Unauthorized") {
+        super(message, 401); // Unauthorized
+    }
+}
+
+export class ForbiddenError extends AppError {
+    constructor(message: string = "Forbidden") {
+        super(message, 403); // Forbidden
+    }
+}
+
+export class ConflictError extends AppError {
+    constructor(message: string) {
+        super(message, 409); // Conflict
+    }
+}
