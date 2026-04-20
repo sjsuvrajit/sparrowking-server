@@ -29,5 +29,23 @@ export const registerSchema = z.object({
         .trim(),
 });
 
+//Login Validation Schema
+export const loginSchema = z.object({
+    email: z
+        .string({
+            message: "Email is required",
+        })
+        .email("Invalid email format")
+        .toLowerCase()
+        .trim(),
+
+    password: z
+        .string({
+            message: "Password is required",
+        })
+        .min(1, "Password is required"), //Simpler validation for login, just check if it's not empty
+})
+
 // TypeScript type for inferred from the schema
 export type RegisterInput = z.infer<typeof registerSchema>;
+export type LoginInput = z.infer<typeof loginSchema>;

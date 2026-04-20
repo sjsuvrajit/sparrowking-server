@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { register } from "../controllers/authController";
+import { register, login } from "../controllers/authController";
 import { validate } from "../middlewares/validate";
-import { registerSchema } from "../validators/authValidators";
+import { registerSchema, loginSchema } from "../validators/authValidators";
 
 const router = Router();
 
@@ -11,5 +11,12 @@ router.post(
     validate(registerSchema), // validate input first
     register  // Then call the controller to handle registration logic
 )
+
+// POST /api/auth/login - Login user
+router.post(
+    "/login",
+    validate(loginSchema),
+    login
+);
 
 export default router;
