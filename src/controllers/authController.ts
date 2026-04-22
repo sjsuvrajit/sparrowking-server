@@ -6,23 +6,32 @@ import { RegisterInput, LoginInput } from "../validators/authValidators";
 import { send } from "node:process";
 
 export const register = asyncHandler(async (req: Request, res: Response) => {
-    // Type-safe request body (validation already done by middleware)
-    const userData = req.body as RegisterInput;
+  // Type-safe request body (validation already done by middleware)
+  const userData = req.body as RegisterInput;
 
-    // call the service layer to handle registration logic
-    const user = await authService.registerUser(userData);
+  // call the service layer to handle registration logic
+  const user = await authService.registerUser(userData);
 
-    // send success response
-    sendSuccess(res, { user }, "User registered successfully", 201);
+  // send success response
+  sendSuccess(res, { user }, "User registered successfully", 201);
 });
 
 // Login
 export const login = asyncHandler(async (req: Request, res: Response) => {
-    const loginData = req.body as LoginInput;
-    const { user, token } = await authService.loginUser(loginData);
+  const loginData = req.body as LoginInput;
+  const { user, token } = await authService.loginUser(loginData);
 
-    sendSuccess(
-        res, { user, token, expiresIn: process.env.JWT_EXPIRES_IN || "7d" },
-    ),
-    "Login successful"
+  (sendSuccess(res, {
+    user,
+    token,
+    expiresIn: process.env.JWT_EXPIRES_IN || "7d",
+  }),
+    "Login successful");
+});
+
+//Logout (optional, since JWT is stateless, but can be implemented with token blacklisting if needed)
+export const logout = asyncHandler(async (req: Request, res: Response) => {
+  // For JWT, logout can be handled on the client side by simply deleting the token.
+  // If you want to implement server-side logout, you would need to maintain a blacklist of tokens.
+  sendSuccess(res, {}, "Logout successful");
 });
